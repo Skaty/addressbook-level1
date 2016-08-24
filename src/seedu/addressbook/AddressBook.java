@@ -443,7 +443,8 @@ public class AddressBook {
      * @return set of keywords as specified by args
      */
     private static Set<String> extractKeywordsFromFindPersonArgs(String findPersonCommandArgs) {
-        return new HashSet<>(splitByWhitespace(findPersonCommandArgs.trim()));
+    	String searchQuery = findPersonCommandArgs.trim();
+        return new HashSet<>(splitByWhitespace(searchQuery.toLowerCase()));
     }
 
     /**
@@ -455,7 +456,8 @@ public class AddressBook {
     private static ArrayList<String[]> getPersonsWithNameContainingAnyKeyword(Collection<String> keywords) {
         final ArrayList<String[]> matchedPersons = new ArrayList<>();
         for (String[] person : getAllPersonsInAddressBook()) {
-            final Set<String> wordsInName = new HashSet<>(splitByWhitespace(getNameFromPerson(person)));
+        	final String personName = getNameFromPerson(person);
+            final Set<String> wordsInName = new HashSet<>(splitByWhitespace(personName.toLowerCase()));
             if (!Collections.disjoint(wordsInName, keywords)) {
                 matchedPersons.add(person);
             }
